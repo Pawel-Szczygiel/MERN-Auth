@@ -10,7 +10,8 @@ const errorHandler = require('./middleware/errorHandler');
 
 const router = require('./routes/userRoutes');  
 
-
+app.use(express.json());
+app.use(express.urlencoded({extended:true}));
 app.use('/api/user', router);
 
 app.use(notFound);
