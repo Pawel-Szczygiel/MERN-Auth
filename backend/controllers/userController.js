@@ -1,5 +1,5 @@
-import asyncHandler from 'express-async-handler';
-import StatusCodes from 'http-status-codes';
+const  asyncHandler  = require('express-async-handler');
+const { StatusCodes } = require('http-status-codes');
 
 const loginUser = asyncHandler( async (req, res) => {
     res.status(StatusCodes.OK).json({msg: 'login user'});
@@ -28,7 +28,7 @@ const deleteUser = asyncHandler( async (req, res) => {
 
 
 
-export {
+module.exports = {
     loginUser, 
     registerUser, 
     logoutUser, 

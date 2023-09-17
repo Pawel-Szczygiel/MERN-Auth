@@ -1,15 +1,17 @@
-import express from 'express';
+require('dotenv').config();
+
+const express = require('express');
 const app = express();
-
-import dotenv from 'dotenv';
-dotenv.config();
-
-import { notFound, errorHandler } from './middleware/errorMiddleware.js';
-import userRoutes from './routes/userRoutes.js'
+const connectDB = require('./db/db');
 
 
-app.use('/api/user', userRoutes);
+const notFound = require('./middleware/notFound');
+const errorHandler = require('./middleware/errorHandler');
 
+const router = require('./routes/userRoutes');  
+
+
+app.use('/api/user', router);
 
 app.use(notFound);
 app.use(errorHandler);
@@ -17,6 +19,21 @@ app.use(errorHandler);
 
 
 
-const port = process.env.PORT || 3000;
 
-app.listen(port, () => console.log(`server running on port ${port}...`));
+
+
+const port = process.env.PORT || 3000;
+const url = process.env.MONGO_URI;
+
+const start = async () => {
+    try {
+        const connect = await connectDB(url);
+        console.log(`MongoDb Connected:  ${connect.connection.host}`);
+        app.listen(port, () => console.log(`server is running on port ${port}...`));
+    } catch (error) {
+        console.error(error);
+        process.exit(1);
+    }
+}
+
+start();
