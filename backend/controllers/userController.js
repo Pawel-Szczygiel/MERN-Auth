@@ -88,8 +88,8 @@ const updateUserProfile = asyncHandler( async (req, res) => {
         throw new Error('User not found');
     }
 
-    user.name = name;
-    user.email = email;
+    user.name = name || user.name;
+    user.email = email || user.email;
 
     if ( password ) user.password = password;
 
