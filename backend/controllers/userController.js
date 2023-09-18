@@ -74,12 +74,35 @@ const logoutUser = asyncHandler( async (req, res) => {
 
 //GET
 const getUserProfile = asyncHandler( async (req, res) => {
-    res.status(StatusCodes.OK).json({msg: 'user profile'});
+    res.status(StatusCodes.OK).json({ ...req.user });
 });
 
 //PATCH
 const updateUserProfile = asyncHandler( async (req, res) => {
-    res.status(StatusCodes.OK).json({msg: 'update user profile'});
+    const { user: {userId: _id}, body: { name, email, password}} = req;
+
+    const user = await User.findById(_id);
+    console.log(user)
+    if (!user) {
+        res.status(StatusCodes.BAD_REQUEST);
+        throw new Error('User not found');
+    }
+
+    user.name = name;
+    user.email = email;
+
+    if ( password ) user.password = password;
+
+    const updateUser = await user.save();
+
+    res.status(StatusCodes.OK).json({
+        user: {
+            _id: updateUser._id,
+            name: updateUser.name,
+            email: updateUser.email
+        },
+        message: `User with name ${updateUser.name} was updated`
+    });
 }); 
 
 //DELETE
