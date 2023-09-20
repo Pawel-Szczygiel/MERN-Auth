@@ -74,6 +74,7 @@ const logoutUser = asyncHandler( async (req, res) => {
 
 //GET
 const getUserProfile = asyncHandler( async (req, res) => {
+    console.log(req.user)
     res.status(StatusCodes.OK).json({ ...req.user });
 });
 
@@ -107,7 +108,16 @@ const updateUserProfile = asyncHandler( async (req, res) => {
 
 //DELETE
 const deleteUser = asyncHandler( async (req, res) => {
-    res.status(StatusCodes.OK).json({msg: 'delete user profile'});
+    const { userId : _id, name } = req.user;
+
+    const deletedUser = await User.findByIdAndRemove({_id, name});
+   
+    if (!deletedUser) {
+        res.status(StatusCodes.NOT_FOUND)
+        throw new Error(`No user with id: ${_id}.`);
+    }
+    res.clearCookie('jwt');
+    res.status(StatusCodes.OK).json({msg: `deleted user with name: ${name}`});
 }); 
 
 
