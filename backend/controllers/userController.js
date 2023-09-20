@@ -74,7 +74,6 @@ const logoutUser = asyncHandler( async (req, res) => {
 
 //GET
 const getUserProfile = asyncHandler( async (req, res) => {
-    console.log(req.user)
     res.status(StatusCodes.OK).json({ ...req.user });
 });
 

@@ -27,7 +27,7 @@ app.use(errorHandler);
 
 
 
-const port = process.env.PORT || 3000;
+const port = process.env.PORT || 5000;
 const url = process.env.MONGO_URI;
 
 const start = async () => {
