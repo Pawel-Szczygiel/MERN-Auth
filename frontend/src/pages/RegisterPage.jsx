@@ -7,7 +7,7 @@ const RegisterPage = () => {
     const [name, setName] = useState('');
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
-    const [confirmPassword, setSonfirmPassword] = useState('');
+    const [confirmPassword, setConfirmedPassword] = useState('');
 
 
     const submitHandler = async e => {
@@ -57,7 +57,7 @@ const RegisterPage = () => {
                         type="password" 
                         placeholder="confirm password" 
                         value={confirmPassword} 
-                        onChange={e => setSonfirmPassword(e.target.value)}>
+                        onChange={e => setConfirmedPassword(e.target.value)}>
                     </Form.Control>
                 </Form.Group>
                 
