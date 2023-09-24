@@ -68,8 +68,9 @@ const logoutUser = asyncHandler( async (req, res) => {
     //     httpOnly: true,
     //     expires: new Date(0)
     // });
+
     res.clearCookie('jwt');
-    res.status(StatusCodes.OK).json({msg: 'logged user'});
+    res.status(StatusCodes.OK).json({msg: `User logout`});
 });
 
 //GET

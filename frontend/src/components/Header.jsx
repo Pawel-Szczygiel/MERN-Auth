@@ -1,3 +1,4 @@
+
 import { Navbar, Nav, Container, NavDropdown} from 'react-bootstrap';
 import { FaSignInAlt, FaSignOutAlt } from 'react-icons/fa';
 import { LinkContainer }  from 'react-router-bootstrap'
@@ -8,23 +9,28 @@ import { useDispatch, useSelector } from 'react-redux';
 import { toast } from 'react-toastify';
 import { useNavigate } from 'react-router-dom';
 
+
+
 const Header = () => {
 
-  const { userInfo } = useSelector(state => state.auth);
+  const { userInfo } = useSelector(store => store.auth);
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const [logoutApiCall] = useLogoutMutation();
-  
-  const logoutHandler = async () => {
+  const [ logoutApiCall ] = useLogoutMutation();
+
+
+
+  const logoutHandler = async e => {
+    e.preventDefault();
     try {
       await logoutApiCall().unwrap();
       dispatch(logout());
-      toast.success(`User ${userInfo.name} logout`);
-      navigate('/')
+      toast.success(`User, ${userInfo.name} was success logout`);
+      navigate('/login')
     } catch (error) {
       toast.error(error?.data?.message || error.message);
     }
-  }
+  };
 
   return (
     <header>

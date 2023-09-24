@@ -6,6 +6,8 @@ import { useLoginMutation } from "../slices/usersApiSlice";
 import { setCredentials } from "../slices/authSlice";
 import FormContainer from '../components/FormContainer';
 import { toast } from 'react-toastify';
+import { Loader } from "../components/Loader";
+
 
 const LoginPage = () => {
     const [email, setEmail] = useState('');
@@ -16,13 +18,12 @@ const LoginPage = () => {
 
     const [login, { isLoading }] = useLoginMutation();
 
-    const { userInfo } = useSelector( state => state.auth )
+    const { userInfo } = useSelector( store => store.auth );
 
 
     useEffect(() => {
         if (userInfo) {
             navigate('/')
-      
         }
     },[navigate, userInfo]);
 
@@ -34,7 +35,7 @@ const LoginPage = () => {
             toast.success(`Hello again, ${res.name}`);
             navigate('/');
         } catch (error) {
-            toast.error(error?.data.message || error.message);
+            toast.error(error?.data?.message || error.message);
         }
     }
 
@@ -62,6 +63,8 @@ const LoginPage = () => {
                     </Form.Control>
                 </Form.Group>
                 
+                { isLoading && <Loader />}
+
                 <Button type='submit' variant='primary' className="mt-3">
                     Sign In
                 </Button>
